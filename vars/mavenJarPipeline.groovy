@@ -14,10 +14,13 @@ def call(Map pipelineParams) {
             }
             stage('Push') {
                 steps {
-                    sh "sudo docker build -t ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag} ."
-                    sh "sudo docker push ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}"
+                    script {
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                            def image = docker.build("${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}")
+                            image.push()
+                        }
+                    }
                 }
-            }
         }
     }
 }
