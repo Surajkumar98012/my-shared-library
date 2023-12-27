@@ -2,7 +2,7 @@
 def call(Map config) {
     // Define the pipeline parameters
     def dockerImage = config.dockerImage ?: 'maven:3.8.1-jdk-11'
-    def dockerHubUser = config.dockerHubUser ?: 'username'
+    def dockerHubUser = config.dockerHubUser ?: 'suraj009' // Change the default value to 'suraj009'
     def dockerHubRepo = config.dockerHubRepo ?: 'my-java-app'
     def dockerHubTag = config.dockerHubTag ?: 'latest'
 
