@@ -4,12 +4,12 @@ def call(Map pipelineParams) {
         stages {
             stage('Build') {
                 steps {
-                    sh 'mvn clean package'
+                    sh 'javac HelloWorld.java'
                 }
             }
             stage('Test') {
                 steps {
-                    sh 'mvn test'
+                    sh 'java HelloWorld'
                 }
             }
             stage('Push') {
