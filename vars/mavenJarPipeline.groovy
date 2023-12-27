@@ -14,8 +14,8 @@ def call(Map pipelineParams) {
             }
             stage('Push') {
                 steps {
-                    sh 'docker build -t <docker-hub-username>/<docker-image-name>:<tag> .'
-                    sh 'docker push <docker-hub-username>/<docker-image-name>:<tag>'
+                    sh "docker build -t ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag} ."
+                    sh "docker push ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}"
                 }
             }
         }
