@@ -12,16 +12,24 @@ def call(Map pipelineParams) {
                     sh 'java HelloWorld'
                 }
             }
-            stage('Push') {
-                steps {
-                    script {
-                        docker.withRegistry('', "${pipelineParams.dockerHubCredentials}") {
-                            sh "docker build -t ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag} ."
-                            sh "docker push ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}"
-                        }
+
+        stage('Dockerize') {
+            steps {
+                script {
+                    dockerImage = docker.build("${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}")
+                }
+            }
+        }
+
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        dockerImage.push("latest")
                     }
                 }
             }
         }
     }
+}
 }
