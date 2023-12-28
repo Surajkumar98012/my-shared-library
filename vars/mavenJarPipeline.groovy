@@ -14,10 +14,11 @@ def call(Map pipelineParams) {
             }
             stage('Push') {
                 steps {
-                    withCredentials([usernamePassword(credentialsId: "${pipelineParams.dockerHubCredentials}", usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        sh 'echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin'
-                        sh 'docker build -t ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag} .'
-                        sh 'docker push ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}'
+                    script {
+                        docker.withRegistry('', "${pipelineParams.dockerHubCredentials}") {
+                            sh "docker build -t ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag} ."
+                            sh "docker push ${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}"
+                        }
                     }
                 }
             }
