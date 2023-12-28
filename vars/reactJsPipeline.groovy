@@ -14,7 +14,7 @@ pipeline {
         stage('Dockerize') {
             steps {
                 script {
-                    dockerImage = docker.build("YourDockerUsername/YourImageName")
+                    dockerImage = docker.build("${pipelineParams.dockerHubUsername}/${pipelineParams.dockerImageName}:${pipelineParams.tag}")
                 }
             }
         }
