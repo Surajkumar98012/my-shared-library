@@ -2,16 +2,6 @@ def call(Map pipelineParams) {
     pipeline {
         agent any
         stages {
-            stage('Check Docker Group') {
-                steps {
-                    script {
-                        if (sh(script: 'groups | grep docker', returnStatus: true) != 0) {
-                            sh "sudo usermod -aG docker ${pipelineParams.dockerHubUsername}"
-                            sh 'newgrp docker'
-                        }
-                    }
-                }
-            }
             stage('Build') {
                 steps {
                     sh 'javac HelloWorld.java'
