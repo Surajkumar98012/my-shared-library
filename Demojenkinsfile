@@ -1,0 +1,13 @@
+//if anybody wants to use my shared library then you just need to this jenkisfile in your repo
+@Library('my-shared-library@main') _
+
+def pipelineParams = [
+    dockerHubUsername: 'username',
+    dockerImageName: 'my-test-java',
+    tag: 'v1',
+    dockerHubCredentials: '45454'
+]
+mavenJarPipeline.call(pipelineParams)
+
+
+// replace username and credential id with own data
