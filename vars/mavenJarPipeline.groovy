@@ -6,7 +6,7 @@ def call(Map pipelineParams) {
                 steps {
                     script {
                         if (sh(script: 'groups | grep docker', returnStatus: true) != 0) {
-                            sh 'sudo usermod -aG docker ${pipelineParams.dockerHubUsername}'
+                            sh "sudo usermod -aG docker ${pipelineParams.dockerHubUsername}"
                             sh 'newgrp docker'
                         }
                     }
